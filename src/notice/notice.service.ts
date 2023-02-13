@@ -16,13 +16,12 @@ export class NoticeService {
   }
 
   public async update(reqBody: UpdateNoticeDto, id: mongoose.Types.ObjectId) {
-    const notice = await this.noticeModel.findOne({ _id: id });
+    const notice = await this.noticeModel.findOneAndUpdate({ _id: id },reqBody,{runValidators:true,new:true});
 
     if (!notice) {
       throw new BadRequestException({ id: `Notice with id:${id} not found!` });
     }
 
-    await notice.updateOne(reqBody);
     return notice;
   }
 

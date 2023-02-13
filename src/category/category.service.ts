@@ -18,14 +18,12 @@ export class CategoryService{
     }
     
     public async update(reqBody:UpdateCategoryDto,id:string){
-        const result=await this.categoryModel.findOne({_id:id})
+        const result=await this.categoryModel.findOneAndUpdate({_id:id},reqBody,{runValidators:true,new:true})
 
         if(!result){
             throw new BadRequestException({id:`Category with id:${id} not found!`})
         }
-
-        const updatedResult=await result.update();
-        return updatedResult
+        return result
     }
 
     public async delete(id:string){
