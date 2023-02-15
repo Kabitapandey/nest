@@ -85,7 +85,7 @@ export class NoticeController {
   }
 
   @Get('/search')
-  public async searchByStatus(@Query('query') query: string) {
+  public async search(@Query('query') query: string) {
     const result = await this.noticeService.search(query);
 
     return {
@@ -93,5 +93,16 @@ export class NoticeController {
       message: `Notice  listed successfully`,
       success: true,
     };
+  }
+
+  @Get("/filter")
+  public async filterNotice(@Query('startDate') startDate:Date,@Query('endDate') endDate:Date,@Query('category') category:string,@Query('status')status:string ){
+    const result=await this.noticeService.filterNotices(startDate,endDate,category,status)
+
+    return{
+      data:result,
+      message:"Notice listed successfully",
+      success:true
+    }
   }
 }

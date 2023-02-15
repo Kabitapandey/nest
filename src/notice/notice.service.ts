@@ -68,4 +68,21 @@ export class NoticeService {
     return result;
   }
 
+  async filterNotices(startDate?: Date, endDate?: Date,category?: string,status?:string) {
+    const filters={}
+    if(startDate && endDate){
+      filters['createdAt']={$gte:startDate,$lte:endDate}
+    }
+
+    if(category){
+      filters['category']=category
+    }
+
+    if(status){
+      filters['status']=status
+    }
+
+    const result=await this.noticeModel.find(filters)
+    return result;
+  }
 }
